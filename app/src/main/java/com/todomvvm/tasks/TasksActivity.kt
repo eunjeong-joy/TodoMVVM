@@ -1,9 +1,10 @@
-package com.todomvvm
+package com.todomvvm.tasks
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.todomvvm.R
 
-class MainActivity : AppCompatActivity() {
+class TasksActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
