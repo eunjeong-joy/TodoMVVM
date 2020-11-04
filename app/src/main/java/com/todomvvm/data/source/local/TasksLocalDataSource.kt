@@ -6,12 +6,12 @@ import com.todomvvm.util.AppExecutors
 
 class TasksLocalDataSource private constructor(
     val appExecutors: AppExecutors,
-    val taskDao: TaskDao
+    val tasksDao: TaskDao
 ) : TasksDataSource {
 
     override fun getTasks(callback: TasksDataSource.LoadTasksCallback) {
         appExecutors.diskIO.execute {
-            val tasks = taskDao.getTasks()
+            val tasks = tasksDao.getTasks()
             appExecutors.mainThread.execute {
                 if(tasks.isEmpty()) {
                     callback.onDataNotAvailable()
@@ -24,7 +24,7 @@ class TasksLocalDataSource private constructor(
 
     override fun getTask(taskId: String, callback: TasksDataSource.GetTaskCallback) {
         appExecutors.diskIO.execute {
-            val task = taskDao.getTaskById(taskId)
+            val task = tasksDao.getTaskById(taskId)
             appExecutors.mainThread.execute {
                 if(task != null) {
                     callback.onTaskLoaded(task)
@@ -37,13 +37,13 @@ class TasksLocalDataSource private constructor(
 
     override fun saveTask(task: Task) {
         appExecutors.diskIO.execute {
-            taskDao.insertTask(task)
+            tasksDao.insertTask(task)
         }
     }
 
     override fun completeTask(task: Task) {
         appExecutors.diskIO.execute {
-            taskDao.updateComplete(task.id, true)
+            tasksDao.updateComplete(task.id, true)
         }
     }
 
@@ -51,7 +51,7 @@ class TasksLocalDataSource private constructor(
 
     override fun activateTask(task: Task) {
         appExecutors.diskIO.execute {
-            taskDao.updateComplete(task.id, false)
+            tasksDao.updateComplete(task.id, false)
         }
     }
 
@@ -59,7 +59,7 @@ class TasksLocalDataSource private constructor(
 
     override fun clearCompletedTasks() {
         appExecutors.diskIO.execute {
-            taskDao.deleteCompletedTasks()
+            tasksDao.deleteCompletedTasks()
         }
     }
 
@@ -67,13 +67,13 @@ class TasksLocalDataSource private constructor(
 
     override fun deleteAllTasks() {
         appExecutors.diskIO.execute {
-            taskDao.deleteTasks()
+            tasksDao.deleteTasks()
         }
     }
 
     override fun deleteTask(taskId: String) {
         appExecutors.diskIO.execute {
-            taskDao.deleteTaskById(taskId)
+            tasksDao.deleteTaskById(taskId)
         }
     }
 }
