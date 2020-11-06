@@ -1,5 +1,6 @@
 package com.todomvvm.data.source.local
 
+import androidx.annotation.VisibleForTesting
 import com.todomvvm.data.Task
 import com.todomvvm.data.source.TasksDataSource
 import com.todomvvm.util.AppExecutors
@@ -75,5 +76,24 @@ class TasksLocalDataSource private constructor(
         appExecutors.diskIO.execute {
             tasksDao.deleteTaskById(taskId)
         }
+    }
+
+    companion object {
+        private var INSTANCE:TasksLocalDataSource? = null
+
+        @JvmStatic
+        fun getInstance(appExecutors: AppExecutors, tasksDao: TaskDao): TasksLocalDataSource {
+            if(INSTANCE == null) {
+                synchronized(TasksLocalDataSource::javaClass) {
+                    INSTANCE = TasksLocalDataSource(appExecutors, tasksDao)
+                }
+            }
+            return INSTANCE!!
+        }
+
+        fun clearInstance() {
+            INSTANCE = null
+        }
+
     }
 }
