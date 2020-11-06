@@ -165,4 +165,19 @@ class TasksRepository (
     }
 
     private fun getTaskWithId(id: String) = cachedTasks[id]
+
+    companion object {
+        private var INSTANCE: TasksRepository? = null
+
+        @JvmStatic fun getInstance(tasksRemoteDataSource: TasksDataSource,
+            tasksLocalDataSource: TasksDataSource) =
+            INSTANCE ?: synchronized(TasksRepository::class.java) {
+                INSTANCE ?: TasksRepository(tasksRemoteDataSource, tasksLocalDataSource)
+                    .also { INSTANCE = it }
+            }
+
+        @JvmStatic fun destroyInstance() {
+            INSTANCE = null
+        }
+    }
 }
