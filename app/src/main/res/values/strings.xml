@@ -2,6 +2,8 @@
     <string name="app_name">TodoMVVM</string>
 
     <string name="navigation_view_header_title">TO-DOs</string>
+    <string name="list_title">TO-DO List</string>
+    <string name="statistics_title">Statistics</string>
 
     <string name="label_all">All TO-DOs</string>
     <string name="label_active">Active TO-DOs</string>
