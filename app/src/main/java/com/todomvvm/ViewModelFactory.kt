@@ -6,6 +6,8 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.todomvvm.data.source.TasksRepository
+import com.todomvvm.tasks.TasksViewModel
+import java.lang.IllegalArgumentException
 
 class ViewModelFactory private constructor(
     private val tasksRepository: TasksRepository
@@ -14,7 +16,10 @@ class ViewModelFactory private constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
-                
+                isAssignableFrom(TasksViewModel::class.java) ->
+                    TasksViewModel(tasksRepository)
+
+                else -> throw IllegalArgumentException("Unknown ViewModel Class : ${modelClass.name}")
             }
         } as T
 
