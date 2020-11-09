@@ -35,6 +35,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
     implementation "com.google.guava:guava:$guavaVersion"
+    implementation "com.google.android.material:material:$materialVersion"
 
     //Architecture Components
     implementation "androidx.room:room-runtime:$roomVersion"
