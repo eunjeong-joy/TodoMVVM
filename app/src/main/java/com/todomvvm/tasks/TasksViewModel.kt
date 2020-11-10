@@ -157,7 +157,10 @@ class TasksViewModel(private val tasksRepository: TasksRepository): ViewModel() 
                 isDataLoadingError.value = true
             }
         })
+    }
 
+    fun addNewTask() {
+        _newTaskEvent.value = Event(Unit)
     }
 
 }
