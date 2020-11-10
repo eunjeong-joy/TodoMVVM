@@ -10,6 +10,9 @@
     <string name="menu_filter">Filter</string>
     <string name="menu_clear">Clear completed</string>
 
+    <string name="nav_all">All</string>
+    <string name="nav_active">Active</string>
+    <string name="nav_completed">Completed</string>
     <string name="label_all">All TO-DOs</string>
     <string name="label_active">Active TO-DOs</string>
     <string name="label_completed">Completed TO-DOs</string>
