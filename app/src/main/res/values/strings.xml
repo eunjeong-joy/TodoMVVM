@@ -4,6 +4,9 @@
     <string name="navigation_view_header_title">TO-DOs</string>
     <string name="list_title">TO-DO List</string>
     <string name="statistics_title">Statistics</string>
+    <string name="completed_tasks_cleared">Completed tasks cleared</string>
+    <string name="task_marked_complete">Task marked complete</string>
+    <string name="task_marked_active">Task marked active</string>
 
     <string name="label_all">All TO-DOs</string>
     <string name="label_active">Active TO-DOs</string>

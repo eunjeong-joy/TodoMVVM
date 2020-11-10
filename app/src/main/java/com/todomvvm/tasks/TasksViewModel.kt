@@ -95,6 +95,30 @@ class TasksViewModel(private val tasksRepository: TasksRepository): ViewModel() 
         _tasksAddViewVisible.value = tasksAddVisible
     }
 
+    fun clearCompletedTasks() {
+        tasksRepository.clearCompletedTasks()
+        _snackbarText.value = Event(R.string.completed_tasks_cleared)
+        loadTasks(false, false)
+    }
+
+    fun completeTask(task: Task, completed: Boolean) {
+        if(completed) {
+            tasksRepository.completeTask(task)
+            showSnackbarMessage(R.string.task_marked_complete)
+        } else {
+            tasksRepository.activateTask(task)
+            showSnackbarMessage(R.string.task_marked_active)
+        }
+    }
+
+    private fun showSnackbarMessage(message: Int) {
+        _snackbarText.value = Event(message)
+    }
+
+    internal fun openTask(taskId: String) {
+        _openTaskEvent.value = Event(taskId)
+    }
+
     private fun loadTasks(forceUpdate: Boolean, showLoadingUI: Boolean) {
         if(showLoadingUI) {
             _dataLoading.value = true
