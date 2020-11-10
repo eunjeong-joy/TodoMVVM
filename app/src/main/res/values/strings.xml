@@ -7,6 +7,8 @@
     <string name="completed_tasks_cleared">Completed tasks cleared</string>
     <string name="task_marked_complete">Task marked complete</string>
     <string name="task_marked_active">Task marked active</string>
+    <string name="menu_filter">Filter</string>
+    <string name="menu_clear">Clear completed</string>
 
     <string name="label_all">All TO-DOs</string>
     <string name="label_active">Active TO-DOs</string>
@@ -15,4 +17,5 @@
     <string name="no_tasks_active">You have no active TO-DOs!</string>
     <string name="no_tasks_completed">You have no completed TO-DOs!</string>
     <string name="no_tasks_add">Add a TO-DO item +</string>
+    <string name="refresh">Refresh</string>
 </resources>
