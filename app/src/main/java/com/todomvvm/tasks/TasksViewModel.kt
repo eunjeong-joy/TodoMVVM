@@ -27,9 +27,9 @@ class TasksViewModel(private val tasksRepository: TasksRepository): ViewModel() 
     val currentFilteringLabel: LiveData<Int>
         get() = _currentFilteringLabel
 
-    private val _noTaskLabel = MutableLiveData<Int>()
-    val noTaskLabel: LiveData<Int>
-        get() = _noTaskLabel
+    private val _noTasksLabel = MutableLiveData<Int>()
+    val noTasksLabel: LiveData<Int>
+        get() = _noTasksLabel
 
     private val _noTaskIconRes = MutableLiveData<Int>()
     val noTaskIconRes: LiveData<Int>
@@ -90,7 +90,7 @@ class TasksViewModel(private val tasksRepository: TasksRepository): ViewModel() 
     private fun setFilter(@StringRes filteringLabelString: Int, @StringRes noTaskLabelString: Int,
                             @DrawableRes noTaskIconDrawable: Int, tasksAddVisible: Boolean) {
         _currentFilteringLabel.value = filteringLabelString
-        _noTaskLabel.value = noTaskLabelString
+        _noTasksLabel.value = noTaskLabelString
         _noTaskIconRes.value = noTaskIconDrawable
         _tasksAddViewVisible.value = tasksAddVisible
     }
