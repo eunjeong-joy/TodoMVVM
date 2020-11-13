@@ -1,13 +1,12 @@
 package com.todomvvm.data.source.local
 
-import androidx.annotation.VisibleForTesting
 import com.todomvvm.data.Task
 import com.todomvvm.data.source.TasksDataSource
 import com.todomvvm.util.AppExecutors
 
 class TasksLocalDataSource private constructor(
     val appExecutors: AppExecutors,
-    val tasksDao: TaskDao
+    val tasksDao: TasksDao
 ) : TasksDataSource {
 
     override fun getTasks(callback: TasksDataSource.LoadTasksCallback) {
@@ -82,7 +81,7 @@ class TasksLocalDataSource private constructor(
         private var INSTANCE:TasksLocalDataSource? = null
 
         @JvmStatic
-        fun getInstance(appExecutors: AppExecutors, tasksDao: TaskDao): TasksLocalDataSource {
+        fun getInstance(appExecutors: AppExecutors, tasksDao: TasksDao): TasksLocalDataSource {
             if(INSTANCE == null) {
                 synchronized(TasksLocalDataSource::javaClass) {
                     INSTANCE = TasksLocalDataSource(appExecutors, tasksDao)

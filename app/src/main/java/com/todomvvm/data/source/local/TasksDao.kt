@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.todomvvm.data.Task
 
-@Dao interface TaskDao {
+@Dao interface TasksDao {
 
     @Query("SELECT * FROM Tasks")
     fun getTasks(): List<Task>

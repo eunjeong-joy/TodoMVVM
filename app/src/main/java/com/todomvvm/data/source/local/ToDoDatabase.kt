@@ -8,7 +8,7 @@ import com.todomvvm.data.Task
 @Database(entities = arrayOf(Task::class), version = 1)
 abstract class ToDoDatabase : RoomDatabase() {
 
-    abstract fun taskDao() : TaskDao
+    abstract fun taskDao() : TasksDao
 
     companion object {
         private var INSTANCE: ToDoDatabase? = null
