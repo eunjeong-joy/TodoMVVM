@@ -19,7 +19,8 @@ class AddEditTaskViewModel(private val tasksRepository: TasksRepository)
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean>
-        get() = _dataLoading
+        get() =_dataLoading
+
 
     private val _snackbarText = MutableLiveData<Event<Int>>()
     val snackbarMessage: LiveData<Event<Int>>
@@ -30,21 +31,23 @@ class AddEditTaskViewModel(private val tasksRepository: TasksRepository)
         get() = _taskUpdated
 
     private var taskId: String? = null
+
     private var isNewTask: Boolean = false
-    private var isDataLoaded: Boolean = false
-    private var taskCompleted: Boolean = false
+
+    private var isDataLoaded = false
+
+    private var taskCompleted = false
 
     fun start(taskId: String?) {
         _dataLoading.value?.let { isLoading ->
-            if(isLoading) return
+            if (isLoading) return
         }
-
         this.taskId = taskId
-        if(taskId == null) {
+        if (taskId == null) {
             isNewTask = true
             return
         }
-        if(isDataLoaded) {
+        if (isDataLoaded) {
             return
         }
         isNewTask = false
@@ -69,21 +72,21 @@ class AddEditTaskViewModel(private val tasksRepository: TasksRepository)
         val currentTitle = title.value
         val currentDescription = description.value
 
-        if(currentTitle == null || currentDescription == null) {
-            _snackbarText.value = Event(R.string.empty_task_message)
+        if (currentTitle == null || currentDescription == null) {
+            _snackbarText.value =  Event(R.string.empty_task_message)
             return
         }
-
-        if(Task(currentTitle, currentDescription ?: "").isEmpty) {
-            _snackbarText.value = Event(R.string.empty_task_message)
+        if (Task(currentTitle, currentDescription ?: "").isEmpty) {
+            _snackbarText.value =  Event(R.string.empty_task_message)
             return
         }
 
         val currentTaskId = taskId
-        if(isNewTask || currentTaskId == null) {
+        if (isNewTask || currentTaskId == null) {
             createTask(Task(currentTitle, currentDescription))
         } else {
-            val task = Task(currentTitle, currentDescription, currentTaskId).apply { isCompleted = taskCompleted }
+            val task = Task(currentTitle, currentDescription, currentTaskId)
+                .apply { isCompleted = taskCompleted }
             updateTask(task)
         }
     }

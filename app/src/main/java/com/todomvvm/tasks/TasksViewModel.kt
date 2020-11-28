@@ -8,9 +8,14 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.todomvvm.Event
 import com.todomvvm.R
+import com.todomvvm.addedittask.AddEditTaskActivity
 import com.todomvvm.data.Task
 import com.todomvvm.data.source.TasksDataSource
 import com.todomvvm.data.source.TasksRepository
+import com.todomvvm.util.ADD_EDIT_RESULT_OK
+import com.todomvvm.util.DELETE_RESULT_OK
+import com.todomvvm.util.EDIT_RESULT_OK
+import java.util.ArrayList
 
 class TasksViewModel(private val tasksRepository: TasksRepository): ViewModel() {
     private val _items = MutableLiveData<List<Task>>().apply {
@@ -40,7 +45,7 @@ class TasksViewModel(private val tasksRepository: TasksRepository): ViewModel() 
         get() = _tasksAddViewVisible
 
     private val _snackbarText = MutableLiveData<Event<Int>>()
-    val snackbarText: LiveData<Event<Int>>
+    val snackbarMessage: LiveData<Event<Int>>
         get() = _snackbarText
 
     private var _currentFiltering = TasksFilterType.ALL_TASKS
@@ -111,12 +116,32 @@ class TasksViewModel(private val tasksRepository: TasksRepository): ViewModel() 
         }
     }
 
-    private fun showSnackbarMessage(message: Int) {
-        _snackbarText.value = Event(message)
+    fun addNewTask() {
+        _newTaskEvent.value = Event(Unit)
     }
 
     internal fun openTask(taskId: String) {
         _openTaskEvent.value = Event(taskId)
+    }
+
+    fun handleActivityResult(requestCode: Int, resultCode: Int) {
+        if (AddEditTaskActivity.REQUEST_CODE == requestCode) {
+            when (resultCode) {
+                EDIT_RESULT_OK -> _snackbarText.setValue(
+                    Event(R.string.successfully_saved_task_message)
+                )
+                ADD_EDIT_RESULT_OK -> _snackbarText.setValue(
+                    Event(R.string.successfully_added_task_message)
+                )
+                DELETE_RESULT_OK -> _snackbarText.setValue(
+                    Event(R.string.successfully_deleted_task_message)
+                )
+            }
+        }
+    }
+
+    private fun showSnackbarMessage(message: Int) {
+        _snackbarText.value = Event(message)
     }
 
     private fun loadTasks(forceUpdate: Boolean, showLoadingUI: Boolean) {
@@ -149,8 +174,8 @@ class TasksViewModel(private val tasksRepository: TasksRepository): ViewModel() 
                 }
                 isDataLoadingError.value = false
 
-                val itemValue = ArrayList(tasksToShow)
-                _items.value = itemValue
+                val itemsValue = ArrayList(tasksToShow)
+                _items.value = itemsValue
             }
 
             override fun onDataNotAvailable() {
@@ -158,9 +183,4 @@ class TasksViewModel(private val tasksRepository: TasksRepository): ViewModel() 
             }
         })
     }
-
-    fun addNewTask() {
-        _newTaskEvent.value = Event(Unit)
-    }
-
 }

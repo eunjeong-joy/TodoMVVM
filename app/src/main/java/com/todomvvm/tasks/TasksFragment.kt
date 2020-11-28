@@ -1,6 +1,7 @@
 package com.todomvvm.tasks
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
@@ -10,8 +11,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.todomvvm.R
 import com.todomvvm.databinding.TasksFragBinding
 import com.todomvvm.util.setupSnackbar
+import java.util.ArrayList
 
 class TasksFragment : Fragment() {
+
 
     private lateinit var viewDataBinding: TasksFragBinding
     private lateinit var listAdapter: TasksAdapter
@@ -28,24 +31,9 @@ class TasksFragment : Fragment() {
         return viewDataBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewDataBinding.viewmodel?.let {
-            view?.setupSnackbar(this, it.snackbarText, Snackbar.LENGTH_LONG)
-        }
-        viewDataBinding.setLifecycleOwner(this.viewLifecycleOwner)
-
-        setupFab()
-
-    }
-
     override fun onResume() {
         super.onResume()
         viewDataBinding.viewmodel?.start()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.tasks_fragment_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
@@ -55,7 +43,7 @@ class TasksFragment : Fragment() {
                 true
             }
             R.id.menu_filter -> {
-                showFilteringPopupMenu()
+                showFilteringPopUpMenu()
                 true
             }
             R.id.menu_refresh -> {
@@ -65,10 +53,25 @@ class TasksFragment : Fragment() {
             else -> false
         }
 
-    private fun showFilteringPopupMenu() {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.tasks_fragment_menu, menu)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewDataBinding.viewmodel?.let {
+            view?.setupSnackbar(this, it.snackbarMessage, Snackbar.LENGTH_LONG)
+        }
+        viewDataBinding.setLifecycleOwner(this.viewLifecycleOwner)
+        setupFab()
+        setupListAdapter()
+        setupRefreshLayout()
+    }
+
+    private fun showFilteringPopUpMenu() {
         val view = activity?.findViewById<View>(R.id.menu_filter) ?: return
-        PopupMenu(requireContext(), view).run {
-            menuInflater.inflate(R.menu.tasks_fragment_menu, menu)
+        androidx.appcompat.widget.PopupMenu(requireContext(), view).run {
+            menuInflater.inflate(R.menu.filter_tasks, menu)
 
             setOnMenuItemClickListener {
                 viewDataBinding.viewmodel?.run {
@@ -100,22 +103,25 @@ class TasksFragment : Fragment() {
         if (viewModel != null) {
             listAdapter = TasksAdapter(ArrayList(0), viewModel)
             viewDataBinding.tasksList.adapter = listAdapter
+        } else {
+            Log.w(TAG, "ViewModel not initialized when attempting to set up adapter.")
         }
     }
 
     private fun setupRefreshLayout() {
         viewDataBinding.refreshLayout.run {
             setColorSchemeColors(
-                ContextCompat.getColor(requireContext(), R.color.colorPrimary),
-                ContextCompat.getColor(requireContext(), R.color.colorAccent),
-                ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
+                ContextCompat.getColor(requireActivity(), R.color.colorPrimary),
+                ContextCompat.getColor(requireActivity(), R.color.colorAccent),
+                ContextCompat.getColor(requireActivity(), R.color.colorPrimaryDark)
             )
             scrollUpChild = viewDataBinding.tasksList
         }
     }
 
     companion object {
-        fun getInstance() = TasksFragment()
+        fun newInstance() = TasksFragment()
         private const val TAG = "TasksFragment"
+
     }
 }

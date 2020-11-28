@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.todomvvm.R
-import com.todomvvm.databinding.AddTaskActBinding
-import com.todomvvm.databinding.AddTaskActBindingImpl
 import com.todomvvm.databinding.AddtaskFragBinding
-import com.todomvvm.util.obtainViewModel
 import com.todomvvm.util.setupSnackbar
 
 class AddEditTaskFragment : Fragment() {

@@ -6,7 +6,7 @@ import com.todomvvm.data.Task
 
 object TasksListBindings {
 
-    @BindingAdapter("items")
+    @BindingAdapter("app:items")
     @JvmStatic fun setItems(listView: ListView, items: List<Task>) {
         with(listView.adapter as TasksAdapter) {
             replaceData(items)

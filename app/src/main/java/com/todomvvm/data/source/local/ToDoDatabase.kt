@@ -2,10 +2,9 @@ package com.todomvvm.data.source.local
 
 import android.content.Context
 import androidx.room.*
-import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.todomvvm.data.Task
 
-@Database(entities = arrayOf(Task::class), version = 1)
+@Database(entities = arrayOf(Task::class), version = 1, exportSchema = false)
 abstract class ToDoDatabase : RoomDatabase() {
 
     abstract fun taskDao() : TasksDao
